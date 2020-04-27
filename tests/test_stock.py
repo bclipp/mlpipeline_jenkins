@@ -29,3 +29,14 @@ def test_get_stock():
     stock_manager_mock.return_value = pd.DataFrame(fake_dict, index=fake_dict.keys())
     stock_data_frame: pd.DataFrame = stock.get_stock(stock_manager_mock, "TSLA")
     assert not stock_data_frame.empty
+
+
+def test_get_stock_initial():
+    """
+    Used to test the basic functionality of get_stock
+    """
+    stock_manager_mock: Mock = Mock()
+    fake_dict = {"test": "test"}
+    stock_manager_mock.return_value = pd.DataFrame(fake_dict, index=fake_dict.keys())
+    stock_data_frame: pd.DataFrame = stock.get_stock(stock_manager_mock, "TSLA")
+    assert not stock_data_frame.empty

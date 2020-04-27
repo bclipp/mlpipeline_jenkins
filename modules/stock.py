@@ -23,12 +23,15 @@ def stock_man(stock_symbol: str, today: str, start_date: str = None)-> pd.DataFr
 
 def get_stock(stock_manager: Callable,
               stock_symbol: str,
-              start_date: str = None) -> pd.DataFrame:
+              start_date: bool = False,
+              initial: bool = False) -> pd.DataFrame:
     """
     start_date: start date to pull stock data, in YYYY-MM-DD
     stock_name: company to lookup stock data
     :return:
     """
+    if not initial:
+        start_date: str = (datetime.today() - timedelta(days=360)).strftime('%Y-%m-%d')
     if not start_date:
         start_date: str = (datetime.today() - timedelta(days=7)).strftime('%Y-%m-%d')
     today: str = datetime.today().strftime('%Y-%m-%d')
