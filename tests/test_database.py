@@ -20,6 +20,7 @@ def test_initialize_database():
     config_dict:dict = {"ip":"127.0.0.1",
                         "password":"test1234",
                         "username":"test1234",
+                        "port": "5432",
                         "database":"test1234"}
     database_manager:database.DatabaseManager = database.DatabaseManager(config_dict)
     dataframe: pd.DataFrame = database.initialize_database(database_manager)
