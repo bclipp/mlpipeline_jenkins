@@ -33,25 +33,47 @@ class DatabaseManager():
 
     def receive_sql_fetchall(self,
                              sql_query: str) -> pd.DataFrame:
-        self.cursor.execute(sql_query)
+        try:
+            self.cursor.execute(sql_query)
+        except psycopg2.DatabaseError as error:
+            print(error)
+            self.conn.rollback()
         return self.cursor.fetchall()
 
     def send_sql(self,
-                 sql: str) -> pd.DataFrame:
-        self.cursor.execute(sql)
+                 sql_query: str) -> pd.DataFrame:
+        try:
+            self.cursor.execute(sql_query)
+        except psycopg2.DatabaseError as error:
+            print(error)
+            self.conn.rollback()
 
     def df_to_sql(self,
                   data_frame: pd.DataFrame,
                   table: str):
-        if len(data_frame) > 0:
-            data_frame_columns = list(data_frame)
-            columns = ",".join(data_frame_columns)
-            values = "VALUES({})".format(",".join(["%s" for _ in data_frame_columns]))
-            insert_stmt = "INSERT INTO {} ({}) {}".format(table, columns, values)
-            psycopg2.extras.execute_batch(self.cursor, insert_stmt, data_frame.values)
-            self.conn.commit()
+        try:
+            if len(data_frame) > 0:
+                data_frame_columns = list(data_frame)
+                columns = ",".join(data_frame_columns)
+                values = "VALUES({})".format(",".join(["%s" for _ in data_frame_columns]))
+                insert_stmt = "INSERT INTO {} ({}) {}".format(table, columns, values)
+                psycopg2.extras.execute_batch(self.cursor, insert_stmt, data_frame.values)
+                self.conn.commit()
+        except psycopg2.DatabaseError as error:
+            print(error)
+            self.conn.rollback()
 
     def close_conn(self):
         self.cursor.close()
 
-# add transation redo https://stackoverflow.com/questions/2979369/databaseerror-current-transaction-is-aborted-commands-ignored-until-end-of-tra
+
+def initialize_database(database_manager: DatabaseManager,
+                        table: str) -> pd.DataFrame:
+    """
+    :param database_manager:
+    :return:
+    """
+    database_manager.connect_db()
+    database_manager.send_sql(sql=sql.create_stock_table(table))
+    data_frame: pd.DataFrame = database_manager.receive_sql_fetchall(sql_query=sql.select_all_table("stock"))
+    return data_frame

@@ -3,16 +3,17 @@ reusable SQL statements
 
 """
 
+
 # https://www.psycopg.org/docs/usage.html
 
 
-def create_stock_table() -> str:
+def create_stock_table(table: str) -> str:
     """
     will create the stock table
     :return:
     """
-    return """
-    CREATE TABLE stock(
+    return f"""
+    CREATE TABLE {table}(
         date_symbol VARCHAR (50) NOT NULL ,
         id SERIAL,
         date DATE NOT NULL,
@@ -30,7 +31,16 @@ def create_stock_table() -> str:
 def select_all_table(table: str) -> str:
     """
     will create the stock table
-    :return: a dict of sql and data
+    :return:
     """
-    sql = f"SELECT * FROM {table}"
-    return sql
+    sql_query = f"SELECT * FROM {table}"
+    return sql_query
+
+
+def drop_table(table: str) -> str:
+    """
+    will drop a table
+    :return:
+    """
+    sql_query = f"DROP TABLE {table};"
+    return sql_query
