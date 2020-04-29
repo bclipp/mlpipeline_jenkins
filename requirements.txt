@@ -2,3 +2,4 @@ pandas
 yfinanace
 psycopg2
 pytest
+sklearn
