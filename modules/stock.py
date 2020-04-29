@@ -28,7 +28,7 @@ def get_stock(stock_manager: Callable,
     """
     start_date: start date to pull stock data, in YYYY-MM-DD
     stock_name: company to lookup stock data
-    :return:
+    :return: a df with date, open , high , low, Dividends, stock splits, and symbol
     """
     if not initial:
         start_date: str = (datetime.today() - timedelta(days=360)).strftime('%Y-%m-%d')
@@ -36,4 +36,11 @@ def get_stock(stock_manager: Callable,
         start_date: str = (datetime.today() - timedelta(days=7)).strftime('%Y-%m-%d')
     today: str = datetime.today().strftime('%Y-%m-%d')
     data_frame: pd.DataFrame = stock_manager(stock_symbol, today, start_date)
+    data_frame["symbol"] = stock_symbol
+    data_frame = data_frame.reset_index()
+    data_frame['Date'] = pd.to_datetime(data_frame['Date']).dt.date
+    data_frame["date_symbol"] = data_frame["symbol"] + "_" + data_frame["Date"].map(str)
+    data_frame["clse"] = data_frame["Close"]
+    data_frame["Stock_Splits"] = data_frame["Stock Splits"]
+    data_frame = data_frame.drop(["Close", "Stock Splits"], axis=1)
     return data_frame

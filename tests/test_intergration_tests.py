@@ -19,8 +19,20 @@ def test_get_stock_data():
     stock_data_frame: pd.DataFrame = stock.get_stock(stock.stock_man, "TSLA", start_date)
     assert not stock_data_frame.empty
 
+@pytest.fixture()
+def resource():
+    config_dict: dict = {"ip": "127.0.0.1",
+                         "password": "test1234",
+                         "username": "test1234",
+                         "port": "5432",
+                         "database": "test1234"}
+    database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
+    yield "resource"
+    database_manager.send_sql(sql.drop_table("stock"))
+    database_manager.close_conn()
 
-def test_initialize_database():
+
+def test_initialize_database(resource):
     """
     """
     test_dict = {"Open": 1.2,
@@ -39,3 +51,24 @@ def test_initialize_database():
     database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
     dataframe: pd.DataFrame = database.initialize_database(database_manager)
     assert dataframe.dtypes.equals(want.dtypes)
+# ad a ficture to cleanup the database ie drop table
+
+# make a class
+def test_database_manager_send_sql():
+    config_dict: dict = {"ip": "127.0.0.1",
+                         "password": "test1234",
+                         "username": "test1234",
+                         "port": "5432",
+                         "database": "test1234"}
+    database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
+    database_manager.
+
+def test_database_manager_receive_sql_fetchall():
+    config_dict: dict = {"ip": "127.0.0.1",
+                         "password": "test1234",
+                         "username": "test1234",
+                         "port": "5432",
+                         "database": "test1234"}
+    database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
+    database_manager.
+# ad a ficture to cleanup the database ie drop table
