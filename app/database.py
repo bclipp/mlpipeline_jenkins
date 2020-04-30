@@ -7,7 +7,7 @@ import psycopg2
 from psycopg2 import pool
 import psycopg2.extras
 
-import modules.sql as sql
+import app.sql as sql
 
 
 class DatabaseManager():

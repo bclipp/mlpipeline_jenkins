@@ -7,9 +7,9 @@ from datetime import timedelta
 
 import pandas as pd
 
-import modules.stock as stock
-import modules.database as database
-import modules.sql as sql
+import app.stock as stock
+import app.database as database
+import app.sql as sql
 
 
 def test_get_stock_data():
@@ -103,3 +103,5 @@ def test_df_to_sq():
     database_manager.df_to_sql(data_frame,
                                "stock2")
     database_manager.send_sql(sql_query=sql.drop_table("stock2"))
+
+# def test_save_model():
