@@ -40,9 +40,10 @@ def test_initialize_database():
                          "port": "5432",
                          "database": "test1234"}
     database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
-    dataframe: pd.DataFrame = database.initialize_database(database_manager, "stock2")
+    database.initialize_database(database_manager, "stock2")
+    lst: list = database_manager.receive_sql_fetchall(sql.select_all_table("stock2"))
     database_manager.send_sql(sql_query=sql.drop_table("stock2"))
-    assert dataframe.dtypes.equals(want.dtypes)
+    assert isinstance(lst, list)
 
 
 def test_database_manager_send_sql():

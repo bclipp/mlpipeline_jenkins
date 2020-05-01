@@ -1,3 +1,5 @@
+
+import argparse
 from datetime import datetime
 from datetime import timedelta
 
@@ -25,11 +27,6 @@ def upload_ayear_stock(config_dict: dict,
     database_manager.df_to_sql(stock_data_frame, "stocks")
 
 
-def initial_db_setup(config_dict: dict):
-    database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
-    database.initialize_database(database_manager, "stocks")
-
-
 def train_model(config_dict: dict,
                 table: str):
     database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
@@ -47,6 +44,12 @@ def main():
                          "username": "test1234",
                          "port": "5432",
                          "database": "test1234"}
+    parser = argparse.ArgumentParser()
+    args = parser.parse_args()
+    run_option = args.run_option
+
+    if run_option is "init_db":
+        
 
 
 if __name__ == "__main__":

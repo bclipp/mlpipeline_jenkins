@@ -13,4 +13,15 @@ services:
     image: adminer
     restart: always
     ports:
+      - 8181:8080
+    
+  jenkins:
+    image: jenkins/jenkins
+    volumes:
+      - jenkins_data:/jenkins_config
+    ports:
       - 8080:8080
+      - 50000:50000
+volumes:
+  jenkins_data:
+    driver: local

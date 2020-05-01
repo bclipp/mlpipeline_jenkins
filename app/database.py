@@ -30,6 +30,7 @@ class DatabaseManager():
             .connect(f"dbname={database} user={user} host={host} password={password}")
         self.cursor = conn.cursor()
         self.conn = conn
+        self.conn.autocommit = True
 
     def receive_sql_fetchall(self,
                              sql_query: str) -> pd.DataFrame:
@@ -68,12 +69,11 @@ class DatabaseManager():
 
 
 def initialize_database(database_manager: DatabaseManager,
-                        table: str) -> pd.DataFrame:
+                        table: str):
     """
     :param database_manager:
     :return:
     """
     database_manager.connect_db()
-    database_manager.send_sql(sql=sql.create_stock_table(table))
-    data_frame: pd.DataFrame = database_manager.receive_sql_fetchall(sql_query=sql.select_all_table("stock"))
-    return data_frame
+    database_manager.send_sql(sql_query=sql.create_stock_table(table))
+
