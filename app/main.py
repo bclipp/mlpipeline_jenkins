@@ -48,8 +48,18 @@ def main():
     args = parser.parse_args()
     run_option = args.run_option
 
-    if run_option is "init_db":
-        
+    if run_option == "init_db":
+        database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
+        database.initialize_database(database_manager, "stocks")
+
+    if run_option == "upload_this_weeks_stock":
+        upload_this_weeks_stock(config_dict, "TSLA")
+
+    if run_option == "upload_ayear_stock":
+        upload_ayear_stock(config_dict, "TSLA")
+
+    if run_option == "train_model":
+        train_model(config_dict, "stock")
 
 
 if __name__ == "__main__":
