@@ -30,17 +30,33 @@ def upload_ayear_stock(config_dict: dict,
     database_manager.close_conn()
 
 
-def train_model(config_dict: dict,
-                table: str):
+def search_train_model(config_dict: dict,
+                       table: str):
     database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
+    database_manager.connect_db()
     stocks: list = database_manager.receive_sql_fetchall(sql.select_all_table(table))
+    database_manager.close_conn()
     ml_manager: ml.MLManager = ml.MLManager(pd.DataFrame(stocks))
-    ml_manager.create_xy()
-    ml_manager.create_holdout()
-    ml_manager.grid_search()
-    ml_manager.train_cv()
+    ml_manager.preprocess_data
+    ml_manager.grid_search_gmm()
 
 
+def train_model(config_dict: dict,
+                table: str,
+                hyper_parameters):
+    n_components = hyper_parameters["n_components"]
+    covariance_type = hyper_parameters["covariance_type"]
+    database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
+    database_manager.connect_db()
+    stocks: list = database_manager.receive_sql_fetchall(sql.select_all_table(table))
+    database_manager.close_conn()
+    ml_manager: ml.MLManager = ml.MLManager(pd.DataFrame(stocks))
+    ml_manager.preprocess_data
+    ml_manager.train_gmm(n_components=n_components,
+                         covariance_type=covariance_type)
+
+
+# please reformat so data isn't pulled more than once for search and train
 def main():
     config_dict: dict = {"ip": "127.0.0.1",
                          "password": "test1234",
@@ -60,8 +76,10 @@ def main():
         upload_this_weeks_stock(config_dict, "TSLA")
     elif run_option == "upload_ayear_stock":
         upload_ayear_stock(config_dict, "TSLA")
+    elif run_option == "search_train_model":
+        search_train_model(config_dict, "stocks")
     elif run_option == "train_model":
-        train_model(config_dict, "stock")
+        train_model(config_dict, "stocks", {"n_components": 4, "covariance_type": "full"})
     elif run_option is False:
         print("error can't read run command")
     else:

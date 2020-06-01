@@ -5,17 +5,31 @@ Used for ML realated code
 from sklearn import mixture
 import mlflow
 from urllib.parse import urlparse
+from sklearn.preprocessing import LabelEncoder
+from pandas.api.types import is_numeric_dtype
 
 
 class MLManager():
 
     def __init__(self, train_data_frame):
         self.train_data_frame = train_data_frame
+        self.train_data_frame_clean = None
         self.X = None
         self.model = None
 
     def preprocess_data(self):
-        print("label incode only non numeric")
+        data_frame = self.train_data_frame.copy()
+        threshold = len(self.train_data_frame) * 1
+        data_frame = data_frame.dropna(threshold,
+                                       axis=1)
+        le = LabelEncoder()
+
+        def emcode_me(column):
+            if not is_numeric_dtype(column):
+                return le.fit(column.astype(str))
+            else:
+                return column
+        self.train_data_frame_clean = data_frame.apply(lambda column: emcode_me(column), axis=0, result_type="append")
 
     def grid_search_gmm(self):
         with mlflow.start_run():
@@ -32,7 +46,9 @@ class MLManager():
                 mlflow.log_metric("aic", aic)
                 mlflow.log_metric("bic", bic)
 
-    def train_gmm(self):
+    def train_gmm(self,
+                  n_components=1,
+                  covariance_type="full"):
         with mlflow.start_run():
             n_components = self.n_components_best
             model = mixture.GaussianMixture(n_components=n_components, covariance_type='full')
