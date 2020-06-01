@@ -1,4 +1,3 @@
-
 import argparse
 from datetime import datetime
 from datetime import timedelta
@@ -50,22 +49,23 @@ def main():
                          "database": "test1234"}
     parser = argparse.ArgumentParser()
     args = parser.parse_args()
+    run_option = False
     run_option = args.run_option
 
     if run_option == "init_db":
         database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
         database.initialize_database(database_manager, "stocks")
         database_manager.close_conn()
-
-    if run_option == "upload_this_weeks_stock":
-
+    elif run_option == "upload_this_weeks_stock":
         upload_this_weeks_stock(config_dict, "TSLA")
-
-    if run_option == "upload_ayear_stock":
+    elif run_option == "upload_ayear_stock":
         upload_ayear_stock(config_dict, "TSLA")
-
-    if run_option == "train_model":
+    elif run_option == "train_model":
         train_model(config_dict, "stock")
+    elif run_option is False:
+        print("error can't read run command")
+    else:
+        print("no valid arg where provided")
 
 
 if __name__ == "__main__":
