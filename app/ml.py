@@ -19,26 +19,27 @@ class MLManager():
 
     def preprocess_data(self):
         data_frame = self.train_data_frame.copy()
-        threshold = len(self.train_data_frame) * 1
-        data_frame = data_frame.dropna(threshold,
+        threshold = len(data_frame) * 1
+        data_frame = data_frame.dropna(thresh=threshold,
                                        axis=1)
         le = LabelEncoder()
 
         def emcode_me(column):
             if not is_numeric_dtype(column):
-                return le.fit(column.astype(str))
+                return le.fit_transform(column.astype(str))
             else:
                 return column
-        self.train_data_frame_clean = data_frame.apply(lambda column: emcode_me(column), axis=0, result_type="append")
+        self.train_data_frame_clean = data_frame.apply(lambda column: emcode_me(column), axis=0, result_type="expand")
 
     def grid_search_gmm(self):
         with mlflow.start_run():
-            for x in range(10):
-                n_components = x
+            x = self.train_data_frame_clean
+            for i in range(1, 10):
+                n_components = i
                 model = mixture.GaussianMixture(n_components=n_components, covariance_type='full')
-                model.fit(self.X)
-                aic = model.aic()
-                bic = model.bic()
+                model.fit(x)
+                aic = model.aic(x)
+                bic = model.bic(x)
                 print("aic: " + aic)
                 print("bic: " + bic)
                 mlflow.log_param("n_components", x)

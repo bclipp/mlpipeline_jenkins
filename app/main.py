@@ -37,7 +37,7 @@ def search_train_model(config_dict: dict,
     stocks: list = database_manager.receive_sql_fetchall(sql.select_all_table(table))
     database_manager.close_conn()
     ml_manager: ml.MLManager = ml.MLManager(pd.DataFrame(stocks))
-    ml_manager.preprocess_data
+    ml_manager.preprocess_data()
     ml_manager.grid_search_gmm()
 
 
@@ -58,6 +58,7 @@ def train_model(config_dict: dict,
 
 # please reformat so data isn't pulled more than once for search and train
 def main():
+    # replace with env var
     config_dict: dict = {"ip": "127.0.0.1",
                          "password": "test1234",
                          "username": "test1234",
@@ -65,7 +66,6 @@ def main():
                          "database": "test1234"}
     parser = argparse.ArgumentParser()
     args = parser.parse_args()
-    run_option = False
     run_option = args.run_option
 
     if run_option == "init_db":
@@ -79,7 +79,9 @@ def main():
     elif run_option == "search_train_model":
         search_train_model(config_dict, "stocks")
     elif run_option == "train_model":
+        # switch to a second arg
         train_model(config_dict, "stocks", {"n_components": 4, "covariance_type": "full"})
+    # fix this section
     elif run_option is False:
         print("error can't read run command")
     else:
