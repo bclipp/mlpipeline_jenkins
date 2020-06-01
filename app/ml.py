@@ -16,6 +16,7 @@ class MLManager():
         self.train_data_frame_clean = None
         self.X = None
         self.model = None
+        mlflow.set_tracking_uri("http://localhost:4040")
 
     def preprocess_data(self):
         data_frame = self.train_data_frame.copy()
