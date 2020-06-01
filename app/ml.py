@@ -9,14 +9,15 @@ from sklearn.preprocessing import LabelEncoder
 from pandas.api.types import is_numeric_dtype
 
 
-class MLManager():
+class GmmMlManager():
 
     def __init__(self, train_data_frame):
         self.train_data_frame = train_data_frame
         self.train_data_frame_clean = None
         self.X = None
         self.model = None
-        mlflow.set_tracking_uri("http://localhost:4040")
+        mlflow.set_tracking_uri("http://localhost:5000/")
+        mlflow.set_experiment("/mlflow_gmm")
 
     def preprocess_data(self):
         data_frame = self.train_data_frame.copy()
@@ -33,20 +34,33 @@ class MLManager():
         self.train_data_frame_clean = data_frame.apply(lambda column: emcode_me(column), axis=0, result_type="expand")
 
     def grid_search_gmm(self):
-        with mlflow.start_run():
-            x = self.train_data_frame_clean
-            for i in range(1, 10):
-                n_components = i
-                model = mixture.GaussianMixture(n_components=n_components, covariance_type='full')
-                model.fit(x)
-                aic = str(model.aic(x))
-                bic = str(model.bic(x))
-                print("aic: " + aic)
-                print("bic: " + bic)
-                mlflow.log_param("n_components", x)
-                mlflow.log_param("covariance_type", "full")
-                mlflow.log_metric("aic", float(aic))
-                mlflow.log_metric("bic", float(bic))
+        mlflow.set_tag("runName", "Grid Search GMM")
+        mlflow.set_tag("note.content", "This run is used for trying a range of cluster sizes, 1-10.")
+        mlflow.set_tag("user", "Brian Lipp")
+        mlflow.set_tag("source.type", "JOB")
+        mlflow.set_tag("source.name", "Jenkins ML Pipeline")
+        mlflow.set_tag("source.git.repoURL", "https://github.com/bclipp/mlpipeline_jenkins")
+        x = self.train_data_frame_clean
+for i in range(1, 10):
+    with mlflow.start_run():
+        mlflow.set_tag("mlflow.runName", "Grid Search GMM n_component: " + str(i))
+        mlflow.set_tag("mlflow.note.content", "This run is used for trying a range of cluster sizes, 1-10.")
+        mlflow.set_tag("mlflow.user", "Brian Lipp")
+        mlflow.set_tag("mlflow.source.type", "JOB")
+        mlflow.set_tag("mlflow.source.name", "Jenkins ML Pipeline")
+        mlflow.set_tag("mlflow.source.git.repoURL", "https://github.com/bclipp/mlpipeline_jenkins")
+        # add run name and version
+        n_components = i
+        model = mixture.GaussianMixture(n_components=n_components, covariance_type='full')
+        model.fit(x)
+        aic = str(model.aic(x))
+        bic = str(model.bic(x))
+        print("aic: " + aic)
+        print("bic: " + bic)
+        mlflow.log_param("n_components", i)
+        mlflow.log_param("covariance_type", "full")
+        mlflow.log_metric("aic", float(aic))
+        mlflow.log_metric("bic", float(bic))
 
     def train_gmm(self,
                   n_components=1,
