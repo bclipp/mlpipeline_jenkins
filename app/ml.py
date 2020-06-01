@@ -38,14 +38,14 @@ class MLManager():
                 n_components = i
                 model = mixture.GaussianMixture(n_components=n_components, covariance_type='full')
                 model.fit(x)
-                aic = model.aic(x)
-                bic = model.bic(x)
+                aic = str(model.aic(x))
+                bic = str(model.bic(x))
                 print("aic: " + aic)
                 print("bic: " + bic)
                 mlflow.log_param("n_components", x)
                 mlflow.log_param("covariance_type", "full")
-                mlflow.log_metric("aic", aic)
-                mlflow.log_metric("bic", bic)
+                mlflow.log_metric("aic", float(aic))
+                mlflow.log_metric("bic", float(bic))
 
     def train_gmm(self,
                   n_components=1,
