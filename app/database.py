@@ -59,7 +59,7 @@ class DatabaseManager():
                 values = "VALUES({})".format(",".join(["%s" for _ in data_frame_columns]))
                 insert_stmt = "INSERT INTO {} ({}) {}".format(table, columns, values)
                 psycopg2.extras.execute_batch(self.cursor, insert_stmt, data_frame.values)
-                self.conn.commit()
+                # self.conn.commit()
         except psycopg2.DatabaseError as error:
             print(error)
             self.conn.rollback()

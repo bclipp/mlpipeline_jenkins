@@ -32,9 +32,6 @@ class MLManager():
                 mlflow.log_metric("aic", aic)
                 mlflow.log_metric("bic", bic)
 
-    def find_best_cluster_gmm(self):
-        print("test")
-
     def train_gmm(self):
         with mlflow.start_run():
             n_components = self.n_components_best

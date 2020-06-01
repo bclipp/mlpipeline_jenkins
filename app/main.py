@@ -16,7 +16,9 @@ def upload_this_weeks_stock(config_dict: dict,
     start_date: str = (datetime.today() - timedelta(days=7)).strftime('%Y-%m-%d')
     stock_data_frame: pd.DataFrame = stock.get_stock(stock.stock_man, stock_symbol, start_date)
     database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
+    database_manager.connect_db()
     database_manager.df_to_sql(stock_data_frame, "stocks")
+    database_manager.close_conn()
 
 
 def upload_ayear_stock(config_dict: dict,
@@ -24,14 +26,16 @@ def upload_ayear_stock(config_dict: dict,
     start_date: str = (datetime.today() - timedelta(days=7)).strftime('%Y-%m-%d')
     stock_data_frame: pd.DataFrame = stock.get_stock(stock.stock_man, stock_symbol, start_date)
     database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
+    database_manager.connect_db()
     database_manager.df_to_sql(stock_data_frame, "stocks")
+    database_manager.close_conn()
 
 
 def train_model(config_dict: dict,
                 table: str):
     database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
-    database_manager.receive_sql_fetchall(sql.select_all_table(table))
-    ml_manager: ml.MLManager = ml.MLManager()
+    stocks: list = database_manager.receive_sql_fetchall(sql.select_all_table(table))
+    ml_manager: ml.MLManager = ml.MLManager(pd.DataFrame(stocks))
     ml_manager.create_xy()
     ml_manager.create_holdout()
     ml_manager.grid_search()
@@ -51,8 +55,10 @@ def main():
     if run_option == "init_db":
         database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
         database.initialize_database(database_manager, "stocks")
+        database_manager.close_conn()
 
     if run_option == "upload_this_weeks_stock":
+
         upload_this_weeks_stock(config_dict, "TSLA")
 
     if run_option == "upload_ayear_stock":

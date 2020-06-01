@@ -3,9 +3,9 @@ services:
   postgres:
     image: postgres
     environment:
-      - POSTGRES_PASSWORD=${POSTGRESQL_USER}
-      - POSTGRES_USER=${POSTGRESQL_PASSWORD}
-      - POSTGRES_DB=${POSTGRESQL_DATABASE}
+      - POSTGRES_PASSWORD=test1234
+      - POSTGRES_USER=test1234
+      - POSTGRES_DB=test1234
     ports:
       - 5432:5432
 
@@ -13,14 +13,13 @@ services:
     image: adminer
     restart: always
     ports:
-      - 8181:8080
-    
+      - 8080:8080
   jenkins:
     image: jenkins/jenkins
     volumes:
       - jenkins_data:/jenkins_config
     ports:
-      - 8080:8080
+      - 8082:8080
       - 50000:50000
 
   mlflow:
@@ -34,9 +33,10 @@ services:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
-    command: mlflow server --backend-store-uri postgresql://${POSTGRESQL_USER}:${POSTGRESQL_PASSWORD}@db:5432/${POSTGRESQL_DATABASE} --default-artifact-root s3://mlflow_bucket/mlflow/ --host 0.0.0.0
+    command: mlflow server --backend-store-uri postgresql://test1234:test1234@db:5432/test1234 --default-artifact-root s3://mlflow_bucket/mlflow/ --host postgres
 
 
 volumes:
   jenkins_data:
     driver: local
+
