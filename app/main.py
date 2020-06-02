@@ -12,6 +12,10 @@ import modules.ml_gmm as ml_gmm
 
 def get_args() -> str:
     parser = argparse.ArgumentParser()
+    parser.add_argument("init_db")
+    parser.add_argument("upload_this_weeks_stock")
+    parser.add_argument("upload_ayear_stock")
+    parser.add_argument("search_train_model")
     args = parser.parse_args()
     return args.run_option
 
@@ -62,19 +66,15 @@ def main():
                     "port": "5432",
                     "database": "test1234"}
 
-    run_option = get_args()
-
-    if run_option == "init_db":
+    args = get_args()
+    if args.init_db:
         init_stocks_db(config)
-    elif run_option == "upload_this_weeks_stock":
+    elif args.upload_this_weeks_stock:
         upload_this_weeks_stock(config, "TSLA")
-    elif run_option == "upload_ayear_stock":
+    elif args.upload_ayear_stock:
         upload_ayear_stock(config, "TSLA")
-    elif run_option == "search_train_model":
+    elif args.search_train_model:
         search_train_gmm_model(config, "stocks")
-    # fix this section
-    elif run_option is False:
-        print("error can't read run command")
     else:
         print("no valid arg where provided")
 
