@@ -86,7 +86,7 @@ def main():
     elif run_option == "upload_ayear_stock":
         upload_ayear_stock(config, "TSLA")
     elif run_option == "search_train_model":
-        search_train_model(config, "stocks")
+        search_train_gmm_model(config, "stocks")
     elif run_option == "train_model":
         # switch to a second arg
         train_model(config, "stocks", {"n_components": 4, "covariance_type": "full"})

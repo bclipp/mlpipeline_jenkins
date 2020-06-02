@@ -34,12 +34,6 @@ class GmmMlManager():
         self.train_data_frame_clean = data_frame.apply(lambda column: emcode_me(column), axis=0, result_type="expand")
 
     def grid_search_gmm(self):
-        mlflow.set_tag("runName", "Grid Search GMM")
-        mlflow.set_tag("note.content", "This run is used for trying a range of cluster sizes, 1-10.")
-        mlflow.set_tag("user", "Brian Lipp")
-        mlflow.set_tag("source.type", "JOB")
-        mlflow.set_tag("source.name", "Jenkins ML Pipeline")
-        mlflow.set_tag("source.git.repoURL", "https://github.com/bclipp/mlpipeline_jenkins")
         x = self.train_data_frame_clean
         for i in range(1, 10):
             with mlflow.start_run():
