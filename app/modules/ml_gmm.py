@@ -59,7 +59,7 @@ class GmmMlManager():
                 mlflow.log_metric("bic", float(bic))
                 mlflow.sklearn.log_model(model, "gmm_n_component_" + str(i))
                 mlflow.sklearn.save_model(model,
-                                          path=".",
+                                          path="..",
                                           serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_PICKLE)
 
     def train_gmm(self,

@@ -5,7 +5,7 @@ from unittest.mock import Mock
 from datetime import datetime, timedelta
 
 import pandas as pd
-import app.stock as stock
+import app.modules.stock as stock
 
 
 def test_get_stock_start_date():

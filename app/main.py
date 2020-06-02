@@ -4,10 +4,10 @@ from datetime import timedelta
 
 import pandas as pd
 
-import app.stock as stock
-import app.database as database
-import app.sql as sql
-import app.ml_gmm as ml_gmm
+import modules.stock as stock
+import modules.database as database
+import modules.sql as sql
+import modules.ml_gmm as ml_gmm
 
 
 def get_args() -> str:

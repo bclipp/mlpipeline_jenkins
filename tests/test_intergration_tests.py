@@ -7,9 +7,9 @@ from datetime import timedelta
 
 import pandas as pd
 
-import app.stock as stock
-import app.database as database
-import app.sql as sql
+import app.modules.stock as stock
+import app.modules.database as database
+import app.modules.sql as sql
 
 
 def test_get_stock_data():

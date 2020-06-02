@@ -1,10 +1,9 @@
 """
 tests for the stock module
 """
-from unittest.mock import Mock
 
 import pandas as pd
-import app.ml_gmm as ml
+import app.modules.ml_gmm as ml
 
 
 def test_create_xy():

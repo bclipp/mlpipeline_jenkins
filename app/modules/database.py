@@ -4,10 +4,9 @@
 
 import pandas as pd
 import psycopg2
-from psycopg2 import pool
 import psycopg2.extras
 
-import app.sql as sql
+import app.modules.sql as sql
 
 
 class DatabaseManager():
