@@ -16,8 +16,6 @@ services:
       - 8080:8080
   jenkins:
     image: jenkins/jenkins
-    volumes:
-      - jenkins_data:/jenkins_config
     ports:
       - 8082:8080
       - 50000:50000
@@ -36,8 +34,4 @@ services:
       - ~/.aws:/root/.aws
     command: mlflow server --backend-store-uri postgresql://test1234:test1234@postgres:5432/test1234 --default-artifact-root s3://mlflow-bucket-bclipp/mlflow/ --host 0.0.0.0
 
-
-volumes:
-  jenkins_data:
-    driver: local
 

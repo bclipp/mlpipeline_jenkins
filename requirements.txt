@@ -3,3 +3,5 @@ yfinanace
 psycopg2
 pytest
 sklearn
+mlflow
+mlflow-sklearn
