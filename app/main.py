@@ -12,10 +12,7 @@ import modules.ml_gmm as ml_gmm
 
 def get_args() -> str:
     parser = argparse.ArgumentParser()
-    parser.add_argument("init_db")
-    parser.add_argument("upload_this_weeks_stock")
-    parser.add_argument("upload_ayear_stock")
-    parser.add_argument("search_train_model")
+    parser.add_argument("task")
     args = parser.parse_args()
     return args.run_option
 
@@ -67,14 +64,15 @@ def main():
                     "database": "test1234"}
 
     args = get_args()
-    if args.init_db:
-        init_stocks_db(config)
-    elif args.upload_this_weeks_stock:
-        upload_this_weeks_stock(config, "TSLA")
-    elif args.upload_ayear_stock:
-        upload_ayear_stock(config, "TSLA")
-    elif args.search_train_model:
-        search_train_gmm_model(config, "stocks")
+    if args.task:
+        if args.task == "init_db":
+            init_stocks_db(config)
+        elif args.task == "upload_this_weeks_stock":
+            upload_this_weeks_stock(config, "TSLA")
+        elif args.task == "upload_ayear_stock":
+            upload_ayear_stock(config, "TSLA")
+        elif args.task == "search_train_model":
+            search_train_gmm_model(config, "stocks")
     else:
         print("no valid arg where provided")
 
