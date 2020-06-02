@@ -13,12 +13,14 @@ import time
 
 class GmmMlManager():
 
-    def __init__(self, train_data_frame):
+    def __init__(self, train_data_frame, config):
+        self.config = config
         self.train_data_frame = train_data_frame
         self.train_data_frame_clean = None
         self.X = None
         self.model = None
-        mlflow.set_tracking_uri("http://localhost:5000/")
+        ip = self.config["ip"]
+        mlflow.set_tracking_uri("http://{ip}:5000/")
         mlflow.set_experiment("/mlflow_gmm")
 
     def preprocess_data(self):

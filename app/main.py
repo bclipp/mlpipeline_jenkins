@@ -23,21 +23,21 @@ def init_stocks_db(config: dict):
     database_manager.close_conn()
 
 
-def upload_this_weeks_stock(config_dict: dict,
+def upload_this_weeks_stock(config: dict,
                             stock_symbol: str):
     start_date: str = (datetime.today() - timedelta(days=7)).strftime('%Y-%m-%d')
     stock_data_frame: pd.DataFrame = stock.get_stock(stock.stock_man, stock_symbol, start_date)
-    database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
+    database_manager: database.DatabaseManager = database.DatabaseManager(config)
     database_manager.connect_db()
     database_manager.df_to_sql(stock_data_frame, "stocks")
     database_manager.close_conn()
 
 
-def upload_ayear_stock(config_dict: dict,
+def upload_ayear_stock(config: dict,
                        stock_symbol: str):
     start_date: str = (datetime.today() - timedelta(days=7)).strftime('%Y-%m-%d')
     stock_data_frame: pd.DataFrame = stock.get_stock(stock.stock_man, stock_symbol, start_date)
-    database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
+    database_manager: database.DatabaseManager = database.DatabaseManager(config)
     database_manager.connect_db()
     database_manager.df_to_sql(stock_data_frame, "stocks")
     database_manager.close_conn()

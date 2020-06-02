@@ -14,17 +14,17 @@ class DatabaseManager():
 
     """
 
-    def __init__(self, config_dict):
-        self.config_dict = config_dict
+    def __init__(self, config):
+        self.config = config
         self.conn = None
         self.cursor = None
 
     def connect_db(self):
-        user = self.config_dict["username"]
-        password = self.config_dict["password"]
-        host = self.config_dict["ip"]
+        user = self.config["username"]
+        password = self.config["password"]
+        host = self.config["ip"]
         # port = self.config_dict["port"]
-        database = self.config_dict["database"]
+        database = self.config["database"]
         conn = psycopg2 \
             .connect(f"dbname={database} user={user} host={host} password={password}")
         self.cursor = conn.cursor()
