@@ -49,7 +49,7 @@ def search_train_gmm_model(config: dict,
     database_manager.connect_db()
     stocks: list = database_manager.receive_sql_fetchall(sql.select_all_table(table))
     database_manager.close_conn()
-    gmm_ml_manager: ml_gmm.GmmMlManager = ml_gmm.GmmMlManager(pd.DataFrame(stocks))
+    gmm_ml_manager: ml_gmm.GmmMlManager = ml_gmm.GmmMlManager(pd.DataFrame(stocks,config))
     gmm_ml_manager.preprocess_data()
     gmm_ml_manager.grid_search_gmm()
 
