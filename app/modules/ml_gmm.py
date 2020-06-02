@@ -20,7 +20,7 @@ class GmmMlManager():
         self.X = None
         self.model = None
         ip = self.config["ip"]
-        mlflow.set_tracking_uri("http://{ip}:5000/")
+        mlflow.set_tracking_uri(f"http://{ip}:5000/")
         mlflow.set_experiment("/mlflow_gmm")
 
     def preprocess_data(self):
