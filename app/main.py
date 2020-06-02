@@ -7,7 +7,7 @@ import pandas as pd
 import app.stock as stock
 import app.database as database
 import app.sql as sql
-import app.ml as ml
+import app.ml_gmm as ml_gmm
 
 
 def get_args() -> str:
@@ -48,24 +48,9 @@ def search_train_gmm_model(config: dict,
     database_manager.connect_db()
     stocks: list = database_manager.receive_sql_fetchall(sql.select_all_table(table))
     database_manager.close_conn()
-    gmm_ml_manager: ml.GmmMlManager = ml.GmmMlManager(pd.DataFrame(stocks))
+    gmm_ml_manager: ml_gmm.GmmMlManager = ml_gmm.GmmMlManager(pd.DataFrame(stocks))
     gmm_ml_manager.preprocess_data()
     gmm_ml_manager.grid_search_gmm()
-
-
-def train_model(config_dict: dict,
-                table: str,
-                hyper_parameters):
-    n_components = hyper_parameters["n_components"]
-    covariance_type = hyper_parameters["covariance_type"]
-    database_manager: database.DatabaseManager = database.DatabaseManager(config_dict)
-    database_manager.connect_db()
-    stocks: list = database_manager.receive_sql_fetchall(sql.select_all_table(table))
-    database_manager.close_conn()
-    gmm_ml_manager: ml.GmmMlManager = ml.GmmMlManager(pd.DataFrame(stocks))
-    gmm_ml_manager.preprocess_data
-    gmm_ml_manager.train_gmm(n_components=n_components,
-                             covariance_type=covariance_type)
 
 
 # please reformat so data isn't pulled more than once for search and train
@@ -87,9 +72,6 @@ def main():
         upload_ayear_stock(config, "TSLA")
     elif run_option == "search_train_model":
         search_train_gmm_model(config, "stocks")
-    elif run_option == "train_model":
-        # switch to a second arg
-        train_model(config, "stocks", {"n_components": 4, "covariance_type": "full"})
     # fix this section
     elif run_option is False:
         print("error can't read run command")

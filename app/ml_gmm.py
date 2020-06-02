@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 from sklearn.preprocessing import LabelEncoder
 from pandas.api.types import is_numeric_dtype
 import mlflow.sklearn
+import time
 
 
 class GmmMlManager():
@@ -57,7 +58,8 @@ class GmmMlManager():
                 mlflow.log_metric("aic", float(aic))
                 mlflow.log_metric("bic", float(bic))
                 mlflow.sklearn.log_model(model, "gmm_n_component_" + str(i))
-                mlflow.sklearn.save_model(model, "s3://mlflow-bucket-bclipp/mlmodel" + str(i),
+                mlflow.sklearn.save_model(model,
+                                          path=".",
                                           serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_PICKLE)
 
     def train_gmm(self,
