@@ -19,7 +19,7 @@ class GmmMlManager():
         self.train_data_frame_clean = None
         self.X = None
         self.model = None
-        ip = self.config["ip"]
+        ip = self.config["mlflow_ip"]
         mlflow.set_tracking_uri(f"http://{ip}:5000/")
         mlflow.set_experiment("/mlflow_gmm")
 

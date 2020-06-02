@@ -57,7 +57,8 @@ def search_train_gmm_model(config: dict,
 # please reformat so data isn't pulled more than once for search and train
 def main():
     # replace with env var
-    config: dict = {"ip": "mlflow",
+    config: dict = {"db_ip": "postgres",
+                    "mlflow_ip": "mlflow",
                     "password": "test1234",
                     "username": "test1234",
                     "port": "5432",

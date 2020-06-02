@@ -22,7 +22,7 @@ class DatabaseManager():
     def connect_db(self):
         user = self.config["username"]
         password = self.config["password"]
-        host = self.config["ip"]
+        host = self.config["db_ip"]
         # port = self.config_dict["port"]
         database = self.config["database"]
         conn = psycopg2 \
