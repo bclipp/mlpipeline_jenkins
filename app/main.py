@@ -57,7 +57,7 @@ def search_train_gmm_model(config: dict,
 # please reformat so data isn't pulled more than once for search and train
 def main():
     # replace with env var
-    config: dict = {"ip": "127.0.0.1",
+    config: dict = {"ip": "postgres",
                     "password": "test1234",
                     "username": "test1234",
                     "port": "5432",
