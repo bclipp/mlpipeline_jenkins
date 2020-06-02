@@ -14,7 +14,7 @@ def get_args() -> str:
     parser = argparse.ArgumentParser()
     parser.add_argument("task")
     args = parser.parse_args()
-    return args.run_option
+    return args
 
 
 def init_stocks_db(config: dict):
