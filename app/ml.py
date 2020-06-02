@@ -41,26 +41,26 @@ class GmmMlManager():
         mlflow.set_tag("source.name", "Jenkins ML Pipeline")
         mlflow.set_tag("source.git.repoURL", "https://github.com/bclipp/mlpipeline_jenkins")
         x = self.train_data_frame_clean
-for i in range(1, 10):
-    with mlflow.start_run():
-        mlflow.set_tag("mlflow.runName", "Grid Search GMM n_component: " + str(i))
-        mlflow.set_tag("mlflow.note.content", "This run is used for trying a range of cluster sizes, 1-10.")
-        mlflow.set_tag("mlflow.user", "Brian Lipp")
-        mlflow.set_tag("mlflow.source.type", "JOB")
-        mlflow.set_tag("mlflow.source.name", "Jenkins ML Pipeline")
-        mlflow.set_tag("mlflow.source.git.repoURL", "https://github.com/bclipp/mlpipeline_jenkins")
-        # add run name and version
-        n_components = i
-        model = mixture.GaussianMixture(n_components=n_components, covariance_type='full')
-        model.fit(x)
-        aic = str(model.aic(x))
-        bic = str(model.bic(x))
-        print("aic: " + aic)
-        print("bic: " + bic)
-        mlflow.log_param("n_components", i)
-        mlflow.log_param("covariance_type", "full")
-        mlflow.log_metric("aic", float(aic))
-        mlflow.log_metric("bic", float(bic))
+        for i in range(1, 10):
+            with mlflow.start_run():
+                mlflow.set_tag("mlflow.runName", "Grid Search GMM n_component: " + str(i))
+                mlflow.set_tag("mlflow.note.content", "This run is used for trying a range of cluster sizes, 1-10.")
+                mlflow.set_tag("mlflow.user", "Brian Lipp")
+                mlflow.set_tag("mlflow.source.type", "JOB")
+                mlflow.set_tag("mlflow.source.name", "Jenkins ML Pipeline")
+                mlflow.set_tag("mlflow.source.git.repoURL", "https://github.com/bclipp/mlpipeline_jenkins")
+                # add run name and version
+                n_components = i
+                model = mixture.GaussianMixture(n_components=n_components, covariance_type='full')
+                model.fit(x)
+                aic = str(model.aic(x))
+                bic = str(model.bic(x))
+                print("aic: " + aic)
+                print("bic: " + bic)
+                mlflow.log_param("n_components", i)
+                mlflow.log_param("covariance_type", "full")
+                mlflow.log_metric("aic", float(aic))
+                mlflow.log_metric("bic", float(bic))
 
     def train_gmm(self,
                   n_components=1,
