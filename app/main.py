@@ -3,8 +3,8 @@ import modules.utils as utils
 
 def main():
     # replace with env var
-    config: dict = {"db_ip": "127.0.0.1",
-                    "mlflow_ip": "127.0.0.1",
+    config: dict = {"db_ip": "postgres",
+                    "mlflow_ip": "mlflow",
                     "password": "test1234",
                     "username": "test1234",
                     "port": "5432",
