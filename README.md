@@ -2,6 +2,21 @@
 
 This is a POC showing how you can use Jenkins and MLflow with Machine Learning.
 
+### Links
+
+[MLflow](http://localhost:5000/)  
+[Jenkins](http://localhost:8082/)   
+[DBadmin](http://localhost:8080/)    
+
+### Directions
+
+1. sudo docker-compose up
+2. login to jenkins 
+    * use the password provided in the docker-compose output
+    * install suggested plugins
+    * use the jenkins file and create a pipeline
+
+
 ### Data
 
 The data used is pulled from yahoo finance. 
