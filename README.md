@@ -33,6 +33,7 @@ pyenv activate app
 pyenv virtualenvs
 pyenv activate <name>
 pip3 install -r mlpipeline_jenkins/app/requirements.txt
+pip3 install pandas yfinance psycopg2-binary pytest sklearn mlflow boto3
 pyenv deactivate
 pyenv virtualenv-delete my-virtual-env
 

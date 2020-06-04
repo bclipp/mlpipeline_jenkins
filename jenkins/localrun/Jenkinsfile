@@ -13,13 +13,12 @@ pipeline {
         }
         stage("setup env") {
             steps {
-                sh 'curl https://pyenv.run | bash &&\
-                export PATH="$HOME/.pyenv/bin:$PATH" &&\
-                eval "$(pyenv init -)" &&\
-                eval "$(pyenv virtualenv-init -)" &&\
-                pyenv install 3.7.4 &&\
-                pyenv virtualenv 3.7.4 app &&\
-                pyenv activate app'
+                sh 'export PATH="$HOME/.pyenv/bin:$PATH" && \
+                eval "$(pyenv init -)" && \
+                eval "$(pyenv virtualenv-init -)" && \
+                pyenv activate app &&\
+                pyenv activate app && \
+                python3 --version'
             }
         }
         stage('init db') {
@@ -28,14 +27,17 @@ pipeline {
                 eval "$(pyenv init -)" && \
                 eval "$(pyenv virtualenv-init -)"&& \
                 pyenv activate app &&\
+                python3 --version &&\
                 python3 mlpipeline_jenkins/app/main.py init_db'
             }
         }
         stage('load one year data on tesla into db') {
             steps {
-                sh ' export PATH="$HOME/.pyenv/bin:$PATH" && \
+                sh 'export PATH="$HOME/.pyenv/bin:$PATH" && \
                 eval "$(pyenv init -)" && \
                 eval "$(pyenv virtualenv-init -)"&& \
+                pyenv activate app && \
+                 python3 --version &&\
                 python3 mlpipeline_jenkins/app/main.py upload_ayear_stock'
             }
         }
@@ -44,7 +46,9 @@ pipeline {
                 sh 'export PATH="$HOME/.pyenv/bin:$PATH" && \
                 eval "$(pyenv init -)" && \
                 eval "$(pyenv virtualenv-init -)"&& \
-                python3mlpipeline_jenkins/app/ main.py search_train_model'
+                pyenv activate app && \
+                 python3 --version &&\
+                python3 mlpipeline_jenkins/app/main.py search_train_model'
             }
         }
     }
