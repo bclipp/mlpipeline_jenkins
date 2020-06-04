@@ -10,8 +10,9 @@ This is a POC showing how you can use Jenkins and MLflow with Machine Learning.
 
 ### Directions
 
-1. sudo docker-compose up
-2. login to jenkins 
+1. adjust the docker-compose file to point to your bucket
+2. sudo docker-compose up
+3. login to jenkins 
     * use the password provided in the docker-compose output
     * install suggested plugins
     * use the jenkins file and create a pipeline
@@ -28,6 +29,9 @@ The data used is pulled from yahoo finance.
 
 The Machine Learning in this project is just used as an example. 
 It is a clustering algorith called Gaussian mixture models implemented using sklearn.
+
+* Model will be saved in S3
+* The all data round the training of the models will be stored in PostgreSQL and visable via MLflow.
 
 
 ### setup jenkins container
