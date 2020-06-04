@@ -19,7 +19,8 @@ This is a POC showing how you can use Jenkins and MLflow with Machine Learning.
 
 ### Data
 
-The data used is pulled from yahoo finance. 
+The data used is pulled from yahoo finance.    
+
 ![schema](model.png)
 
 
