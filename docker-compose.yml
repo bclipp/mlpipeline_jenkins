@@ -14,11 +14,15 @@ services:
     restart: always
     ports:
       - 8080:8080
+
   jenkins:
     image: jenkins/jenkins:lts
     ports:
       - 8082:8080
       - 50000:50000
+    volumes:
+      - ~/.aws: /var/jenkins_home/.aws
+
 
   mlflow:
     build:
