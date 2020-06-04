@@ -30,12 +30,12 @@ class GmmMlManager():
                                        axis=1)
         le = LabelEncoder()
 
-        def emcode_me(column):
+        def encode_me(column):
             if not is_numeric_dtype(column):
                 return le.fit_transform(column.astype(str))
             else:
                 return column
-        self.train_data_frame_clean = data_frame.apply(lambda column: emcode_me(column), axis=0, result_type="expand")
+        self.train_data_frame_clean = data_frame.apply(lambda column: encode_me(column), axis=0, result_type="expand")
 
     def grid_search_gmm(self):
         x = self.train_data_frame_clean
@@ -61,7 +61,7 @@ class GmmMlManager():
                 mlflow.log_metric("bic", float(bic))
                 mlflow.sklearn.log_model(model, "gmm_n_component_" + str(i))
                 mlflow.sklearn.save_model(model,
-                                          path="..",
+                                          path="model_gmm_" + str(i),
                                           serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_PICKLE)
 
     def train_gmm(self,
