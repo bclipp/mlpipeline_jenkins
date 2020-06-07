@@ -1,8 +1,14 @@
+"""
+This module is the main entry point for stock related functionality
+"""
+
 import modules.utils as utils
 
 
 def main():
-    # replace with env var
+    """
+    This function accepts cmd line args needed for choice of action.
+    """
     config: dict = {"db_ip": "postgres",
                     "mlflow_ip": "mlflow",
                     "password": "test1234",
