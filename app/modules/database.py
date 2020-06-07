@@ -1,5 +1,5 @@
 """
-
+This module is for abstracted intearctions with the stocks database
 """
 
 import pandas as pd
@@ -11,6 +11,7 @@ import modules.sql as sql
 
 class DatabaseManager():
     """
+    Used as the main interactions with the postgresql database.
 
     """
 
@@ -20,6 +21,11 @@ class DatabaseManager():
         self.cursor = None
 
     def connect_db(self):
+        """
+        Used to setup the initial connection to the databse. Direct access is
+        not given for testing purposes.
+        :return:
+        """
         user = self.config["username"]
         password = self.config["password"]
         host = self.config["db_ip"]
@@ -33,6 +39,12 @@ class DatabaseManager():
 
     def receive_sql_fetchall(self,
                              sql_query: str) -> pd.DataFrame:
+        """
+        receive_sql_fetchall is used to send a query, and get all the data right away.
+
+        :param sql_query: am SQL query
+        :return:
+        """
         try:
             self.cursor.execute(sql_query)
         except psycopg2.DatabaseError as error:
@@ -42,6 +54,11 @@ class DatabaseManager():
 
     def send_sql(self,
                  sql_query: str) -> pd.DataFrame:
+        """
+        send_sql is used to send a query but not receive any data.
+        :param sql_query:
+        :return:
+        """
         try:
             self.cursor.execute(sql_query)
         except psycopg2.DatabaseError as error:
@@ -51,8 +68,14 @@ class DatabaseManager():
     def df_to_sql(self,
                   data_frame: pd.DataFrame,
                   table: str):
+        """
+        df_to_sql is used for UPDATING a table with a dataframe.
+        :param data_frame: dataframe in question, verify schema matches target table
+        :param table: table to update
+        :return:
+        """
         try:
-            if len(data_frame) > 0:
+            if not data_frame.empty:
                 data_frame_columns = list(data_frame)
                 columns = ",".join(data_frame_columns)
                 values = "VALUES({})".format(",".join(["%s" for _ in data_frame_columns]))
@@ -64,15 +87,21 @@ class DatabaseManager():
             self.conn.rollback()
 
     def close_conn(self):
+        """
+        an abstracted way to control database connection.
+        :return:
+        """
         self.cursor.close()
 
 
 def initialize_database(database_manager: DatabaseManager,
                         table: str):
     """
-    :param database_manager:
+    initialize_database is a a simple abstraction to setup the database.
+
+    :param database_manager: to manage the database.
+    :param table: table to setup
     :return:
     """
     database_manager.connect_db()
     database_manager.send_sql(sql_query=sql.create_stock_table(table))
-
