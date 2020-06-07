@@ -2,7 +2,7 @@
 This module is the main entry point for stock related functionality
 """
 
-import modules.utils as utils
+import modules.utils as utils # type: ignore
 
 
 def main():
@@ -14,12 +14,14 @@ def main():
             * upload_ayear_stock: pull a year's work of stock data
             * search_train_model: train a gmm model on the stock in the database
     """
-    config: dict = {"db_ip": "postgres",
-                    "mlflow_ip": "mlflow",
-                    "password": "test1234",
-                    "username": "test1234",
-                    "port": "5432",
-                    "database": "test1234"}
+    config: dict = {
+        "db_ip": "postgres",
+        "mlflow_ip": "mlflow",
+        "password": "test1234",
+        "username": "test1234",
+        "port": "5432",
+        "database": "test1234",
+    }
 
     args = utils.get_args()
     if args.task:
