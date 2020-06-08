@@ -8,10 +8,10 @@ from datetime import timedelta  # type: ignore
 
 import pandas as pd  # type: ignore
 
-import modules.stock as stock  # type: ignore
-import modules.database as database  # type: ignore
-import modules.sql as sql  # type: ignore
-import modules.ml_gmm as ml_gmm  # type: ignore
+import app.modules.stock as stock  # type: ignore
+import app.modules.database as database  # type: ignore
+import app.modules.sql as sql  # type: ignore
+import app.modules.ml_gmm as ml_gmm  # type: ignore
 
 
 def get_args():

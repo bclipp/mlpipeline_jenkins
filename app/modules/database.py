@@ -6,7 +6,7 @@ import pandas as pd  # type: ignore
 import psycopg2  # type: ignore
 import psycopg2.extras  # type: ignore
 
-import modules.sql as sql  # type: ignore
+import app.modules.sql as sql  # type: ignore
 
 
 class DatabaseManager:

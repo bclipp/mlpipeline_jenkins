@@ -3,7 +3,7 @@ This module is used for interacting with stock data
 """
 
 from typing import Callable  # type: ignore
-from datetime import datetime, timedelta  # type: ignore
+from datetime import datetime  # type: ignore
 
 import pandas as pd  # type: ignore
 import yfinance as yf  # type: ignore

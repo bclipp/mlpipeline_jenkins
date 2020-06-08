@@ -23,10 +23,9 @@ class GmmMlManager:
         self.config = config
         self.train_data_frame = train_data_frame
         self.train_data_frame_clean = None
-        self.X = None
         self.model = None
-        ip = self.config["mlflow_ip"]
-        mlflow.set_tracking_uri(f"http://{ip}:5000/")
+        ip_address = self.config["mlflow_ip"]
+        mlflow.set_tracking_uri(f"http://{ip_address}:5000/")
         mlflow.set_experiment("/mlflow_gmm")
 
     def preprocess_data(self):
@@ -47,16 +46,14 @@ class GmmMlManager:
                 return label_encoder.fit_transform(column.astype(str))
             return column
 
-        self.train_data_frame_clean = data_frame.apply(
-            lambda column: encode_me(column), axis=0, result_type="expand"
-        )
+        self.train_data_frame_clean = data_frame.apply(encode_me, axis=0, result_type="expand")
 
     def grid_search_gmm(self):
         """
         grid_search_gmm ia used to train a range of models and upload the metrics & models.
         :return:
         """
-        x = self.train_data_frame_clean
+        x_train = self.train_data_frame_clean
         for i in range(1, 10):
             with mlflow.start_run():
                 mlflow.set_tag(
@@ -76,9 +73,9 @@ class GmmMlManager:
                 model = mixture.GaussianMixture(
                     n_components=n_components, covariance_type="full"
                 )
-                model.fit(x)
-                aic = str(model.aic(x))
-                bic = str(model.bic(x))
+                model.fit(x_train)
+                aic = str(model.aic(x_train))
+                bic = str(model.bic(x_train))
                 print("aic: " + aic)
                 print("bic: " + bic)
                 mlflow.log_param("n_components", i)

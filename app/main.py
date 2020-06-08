@@ -2,7 +2,7 @@
 This module is the main entry point for stock related functionality
 """
 
-import modules.utils as utils # type: ignore
+import app.modules.utils as utils  # type: ignore
 
 
 def main():
