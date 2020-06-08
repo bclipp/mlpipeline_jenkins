@@ -1,6 +1,4 @@
-![](https://github.com/bclipp/mlpipeline_jenkins/workflows/Python%application/badge.svg)
-![](https://github.com/actions/hello-world/workflows/Greet%20Everyone/badge.svg?branch=feature-1)
-
+![Python app](https://github.com/bclipp/mlpipeline_jenkins/workflows/Python%20application/badge.svg)
 ### Purpose
 
 This is a POC showing how you can use Jenkins and MLflow with Machine Learning.
