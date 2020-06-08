@@ -1,11 +1,10 @@
 """
 tests for the stock module
 """
-from unittest.mock import patch
-import pytest
-import pandas as pd
+import pytest  # type: ignore
+import pandas as pd  # type: ignore
 
-import app.modules.ml_gmm as ml_gmm
+# import app.modules.ml_gmm as ml_gmm
 
 test_data = [
     # first test
@@ -62,10 +61,13 @@ test_data = [
 
 @pytest.mark.parametrize("data_frame,wanted", test_data)
 def test_preprocess_data_2(data_frame, wanted):
+    """
+
+    :param data_frame:
+    :param wanted:
+    :return:
+    """
     print("wanted:")
     print(wanted)
     print("df: ")
     print(data_frame)
-
-
-
