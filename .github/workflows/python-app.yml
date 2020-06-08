@@ -29,7 +29,12 @@ jobs:
       run: |
         # stop the build if pylint is 10 for everything
         pylint app
+    - name: Lint with nypy
+      run: |
+        # stop the build if pylint is 10 for everything
+        mypy app
 
     - name: Test with pytest
       run: |
-        pytest
+        pytest app
+    
