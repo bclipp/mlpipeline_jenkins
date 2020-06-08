@@ -1,4 +1,4 @@
-https://github.com/bclipp/mlpipeline_jenkins/workflows/Python application/badge.svg
+![](https://github.com/bclipp/mlpipeline_jenkins/workflows/Python application/badge.svg)
 
 ### Purpose
 
