@@ -1,3 +1,5 @@
+https://github.com/bclipp/mlpipeline_jenkins/workflows/Python application/badge.svg
+
 ### Purpose
 
 This is a POC showing how you can use Jenkins and MLflow with Machine Learning.
