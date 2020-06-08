@@ -1,27 +1,71 @@
 """
 tests for the stock module
 """
-
+from unittest.mock import patch
+import pytest
 import pandas as pd
-import app.modules.ml_gmm as ml
 
-# preproc
-# grid search
+import app.modules.ml_gmm as ml_gmm
 
-def preprocess_data():
-    """
-    Used to test the basic functionality of get_stock with a start date
-    """
-    test_dict = {"Open": [1, 2, 3, 4],
-                 "High": [1, 2, 3, 4],
-                 "Low": [1, 2, 3, 4],
-                 "clse": [1, 2, 3, 4],
-                 "Volume": [1, 2, 3, 4],
-                 "Dividends": [1, 2, 3, 4],
-                 "Stock Splits": [1, 2, 3, 4]}
-    train_data_frame: pd.DataFrame = pd.DataFrame(test_dict)
-    ml_manager: ml.MLManager = ml.MLManager(train_data_frame)
-    ml_manager.create_xy()
-    ml_manager.create_holdout()
-    ml_manager.preprocess_data_pipeline()
-    assert not ml_manager.pipeline == None
+test_data = [
+    # first test
+    # data_frame
+    (pd.DataFrame(
+        columns=["Open",
+                 "High",
+                 "Low",
+                 "clse",
+                 "Volume",
+                 "Dividends",
+                 "Stock Splits"],
+        data=[[1, 2, "b", 3, 4, 5, 3],
+              [1, 2, "b", 3, 4, 5, 3],
+              [1, 2, "b", 3, 4, 5, 3]]),
+     # wanted
+     pd.DataFrame(
+         columns=["Open",
+                  "High",
+                  "Low",
+                  "clse",
+                  "Volume",
+                  "Dividends",
+                  "Stock Splits"],
+         data=[[1, 2, "b", 3, 4, 5, 3],
+               [1, 2, "b", 3, 4, 5, 3],
+               [1, 2, "b", 3, 4, 5, 3]])),
+    # second test
+    # data_frame
+    (pd.DataFrame(
+        columns=["Open",
+                 "High",
+                 "Low",
+                 "clse",
+                 "Volume",
+                 "Dividends",
+                 "Stock Splits"],
+        data=[[1, 2, "b", 3, 4, 5, 3],
+              [1, 2, "b", 3, 4, 5, 3],
+              [1, 2, "b", 3, 4, 5, 3]]),
+     # wanted
+     pd.DataFrame(
+         columns=["Open",
+                  "High",
+                  "Low",
+                  "clse",
+                  "Volume",
+                  "Dividends",
+                  "Stock Splits"],
+         data=[[1, 2, "b", 3, 4, 5, 3],
+               [1, 2, "b", 3, 4, 5, 3],
+               [1, 2, "b", 3, 4, 5, 3]]))]
+
+
+@pytest.mark.parametrize("data_frame,wanted", test_data)
+def test_preprocess_data_2(data_frame, wanted):
+    print("wanted:")
+    print(wanted)
+    print("df: ")
+    print(data_frame)
+
+
+
