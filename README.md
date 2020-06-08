@@ -56,6 +56,10 @@ pyenv activate app && \
 pip3 install pandas yfinance psycopg2-binary pytest sklearn mlflow boto3 && \
 pyenv deactivate 
 ```
+
+### Jenkins Directions
+
+
 ### AWS
 
 Currently credentials are shared by using a volume in docker. It will use the default profile.
