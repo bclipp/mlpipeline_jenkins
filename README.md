@@ -63,6 +63,4 @@ Currently credentials are shared by using a volume in docker. It will use the de
 * Add unit tests 
 * Add intergration tests
 * handle secrets better
-* add logging
 * kick off ML in a ec2
-* charts

@@ -1,15 +1,12 @@
 """
-reusable SQL statements
-
+This module is used for storing SQL queries
 """
-
-
-# https://www.psycopg.org/docs/usage.html
 
 
 def create_stock_table(table: str) -> str:
     """
-    will create the stock table
+    create_stock_table is used to create  a table
+    :param table:  table name to be created
     :return:
     """
     return f"""
@@ -30,7 +27,8 @@ def create_stock_table(table: str) -> str:
 
 def select_all_table(table: str) -> str:
     """
-    will create the stock table
+    select_all_table is used for returning all the table data.
+    :param table:  return stock table data
     :return:
     """
     sql_query = f"SELECT * FROM {table}"
@@ -39,7 +37,8 @@ def select_all_table(table: str) -> str:
 
 def drop_table(table: str) -> str:
     """
-    will drop a table
+    drop_table is used for dropping a table
+    :param table: the table to drop
     :return:
     """
     sql_query = f"DROP TABLE {table};"

@@ -95,10 +95,11 @@ class DatabaseManager:
         self.cursor.close()
 
 
-def initialize_database(database_manager: DatabaseManager, table: str):
+def initialize_database(database_manager: DatabaseManager,
+                        table: str):
     """
-    initialize_database is a a simple abstraction to setup the database.
 
+    initialize_database is a a simple abstraction to setup the database.
     :param database_manager: to manage the database.
     :param table: table to setup
     :return:
