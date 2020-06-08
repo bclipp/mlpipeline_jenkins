@@ -6,3 +6,4 @@ sklearn==0.0
 mlflow==1.8.0
 boto3==1.13.24
 pylint==2.5.2
+mypy==0.780
