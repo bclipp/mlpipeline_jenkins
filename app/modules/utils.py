@@ -32,7 +32,8 @@ def init_stocks_db(config: dict):
     :return:
     """
     database_manager: database.DatabaseManager = database.DatabaseManager(config)
-    database.initialize_database(database_manager, "stocks")
+    database_manager.connect_db()
+    database_manager.send_sql(sql_query=sql.create_stock_table("stocks"))
     database_manager.close_conn()
 
 

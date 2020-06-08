@@ -6,8 +6,6 @@ import pandas as pd  # type: ignore
 import psycopg2  # type: ignore
 import psycopg2.extras  # type: ignore
 
-import app.modules.sql as sql  # type: ignore
-
 
 class DatabaseManager:
     """
@@ -93,16 +91,3 @@ class DatabaseManager:
         :return:
         """
         self.cursor.close()
-
-
-def initialize_database(database_manager: DatabaseManager,
-                        table: str):
-    """
-
-    initialize_database is a a simple abstraction to setup the database.
-    :param database_manager: to manage the database.
-    :param table: table to setup
-    :return:
-    """
-    database_manager.connect_db()
-    database_manager.send_sql(sql_query=sql.create_stock_table(table))

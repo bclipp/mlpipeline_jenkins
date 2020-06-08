@@ -5,8 +5,6 @@ tests for the stock module
 import pandas as pd
 import app.modules.ml_gmm as ml
 
-# preproc
-# grid search
 
 def preprocess_data():
     """
@@ -24,4 +22,4 @@ def preprocess_data():
     ml_manager.create_xy()
     ml_manager.create_holdout()
     ml_manager.preprocess_data_pipeline()
-    assert not ml_manager.pipeline == None
+    assert not ml_manager.pipeline is None

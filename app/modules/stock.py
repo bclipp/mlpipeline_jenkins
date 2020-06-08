@@ -38,6 +38,7 @@ def get_stock(
     :return: a df with date, open , high , low, Dividends, stock splits, and symbol
     """
     today: str = datetime.today().strftime("%Y-%m-%d")
+    ticker: yf.Ticker = yf.Ticker(stock_symbol)
     data_frame: pd.DataFrame = stock_manager(stock_symbol, today, start_date)
     data_frame["symbol"] = stock_symbol
     data_frame = data_frame.reset_index()
