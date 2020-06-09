@@ -15,7 +15,13 @@ def test_mlflow_intergration():
     :return:
     """
     data_frame_intergration: pd.DataFrame = pd.DataFrame(
-        columns=["Open", "High", "Low", "clse", "Volume", "Dividends", "Stock Splits"],
+        columns=["Open",
+                 "High",
+                 "Low",
+                 "clse",
+                 "Volume",
+                 "Dividends",
+                 "Stock Splits"],
         data=[[5, 2, "b", 3, 4, 5, 3],
               [7, 2, "b", 3, 4, 5, 3],
               [8, 2, "b", 3, 4, 5, 3],
