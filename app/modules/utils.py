@@ -12,6 +12,7 @@ import app.modules.stock as stock  # type: ignore
 import app.modules.database as database  # type: ignore
 import app.modules.sql as sql  # type: ignore
 import app.modules.ml_gmm as ml_gmm  # type: ignore
+import app.modules.mlflow as mlflow  # type: ignore
 
 
 def get_args():
@@ -81,10 +82,14 @@ def search_train_gmm_model(config: dict,
     :param table: table that has stck data
     :return:
     """
+    mlflow_manager = mlflow.MlFlowManager(config["ip"],
+                                          "GMM_example")
     database_manager: database.DatabaseManager = database.DatabaseManager(config)
     database_manager.connect_db()
     stocks: list = database_manager.receive_sql_fetchall(sql.select_all_table(table))
     database_manager.close_conn()
-    gmm_ml_manager: ml_gmm.GmmMlManager = ml_gmm.GmmMlManager(pd.DataFrame(stocks), config)
+    gmm_ml_manager: ml_gmm.GmmMlManager = ml_gmm.GmmMlManager(pd.DataFrame(stocks),
+                                                              config,
+                                                              mlflow_manager)
     gmm_ml_manager.preprocess_data()
     gmm_ml_manager.grid_search_gmm()

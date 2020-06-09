@@ -11,13 +11,15 @@ class MlFlowManager:
     Used for interacting with MLflow server.
     """
 
-    def __init__(self, ip_address: str,
+    def __init__(self,
+                 ip_address: str,
                  experiment_name: str):
         """
 
         :param ip_address: address of mlflow server
         :param experiment_name: name to log on server
         """
+        self.mlflow = mlflow
         self.ip_address = ip_address
         mlflow.set_tracking_uri(f"http://{ip_address}:5000/")
         mlflow.set_experiment("/" + experiment_name)
@@ -29,14 +31,14 @@ class MlFlowManager:
         :param name:  used when logging to mlflow server
         :return:
         """
-        mlflow.start_run(run_name=name)
+        self.mlflow.start_run(run_name=name)
 
     def end_run(self):
         """
         end_run is used for organizing ml experiments
         :return:
         """
-        mlflow.end_run()
+        self.mlflow.end_run()
 
     def set_tag(self,
                 key: str,
@@ -57,7 +59,7 @@ class MlFlowManager:
         :param value: metadata about model
         :return:
         """
-        mlflow.log_param(key, value)
+        self.mlflow.log_param(key, value)
 
     def sk_log_model(self,
                      model,
@@ -68,12 +70,11 @@ class MlFlowManager:
         :param name: name to use for the model
         :return:
         """
-        mlflow.sklearn.log_model(model, name)
+        self.mlflow.sklearn.log_model(model, name)
 
     def sk_save_model(self,
                       model,
-                      path: str,
-                      serialization_format: str):
+                      path: str):
         """
 
         :param model:  trained model to save
@@ -81,8 +82,8 @@ class MlFlowManager:
         :param serialization_format: method to use for serialization when saving
         :return:
         """
-        mlflow.sk_save_model(model,
-                             path=path,
-                             serialization_format=serialization_format)
-
-
+        self.mlflow.sklearn.save_model(model,
+                                       path=path,
+                                       serialization_format=mlflow
+                                       .sklearn
+                                       .SERIALIZATION_FORMAT_PICKLE)

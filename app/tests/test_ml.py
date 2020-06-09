@@ -8,7 +8,7 @@ import pandas as pd  # type: ignore
 
 import app.modules.ml_gmm as ml_gmm  # type: ignore
 
-test_data = [
+TEST_DATA = [
     # first test
     # data_frame
     (pd.DataFrame(
@@ -33,10 +33,36 @@ test_data = [
                   "Stock Splits"],
          data=[[1, 2, 0, 3, 4, 5, 3],
                [1, 2, 0, 3, 4, 5, 3],
-               [1, 2, 0, 3, 4, 5, 3]]))]
+               [1, 2, 0, 3, 4, 5, 3]])),
+    # second test
+    # data_frame
+    (pd.DataFrame(
+        columns=["Open",
+                 "High",
+                 "Low",
+                 "clse",
+                 "Volume",
+                 "Dividends",
+                 "Stock Splits"],
+        data=[[1, 2, "a", 3, 4, 5, 3],
+              [1, 2, "b", 3, 4, 5, 3],
+              [1, 2, "b", 3, 4, 5, 3]]),
+     # wanted
+     pd.DataFrame(
+         columns=["Open",
+                  "High",
+                  "Low",
+                  "clse",
+                  "Volume",
+                  "Dividends",
+                  "Stock Splits"],
+         data=[[1, 2, 0, 3, 4, 5, 3],
+               [1, 2, 1, 3, 4, 5, 3],
+               [1, 2, 1, 3, 4, 5, 3]]))
+]
 
 
-@pytest.mark.parametrize("data_frame,wanted", test_data)
+@pytest.mark.parametrize("data_frame,wanted", TEST_DATA)
 def test_preprocess_data_2(data_frame, wanted):
     """
 

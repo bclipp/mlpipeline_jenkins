@@ -6,8 +6,6 @@ from sklearn.preprocessing import LabelEncoder  # type: ignore
 import pandas as pd  # type: ignore
 from pandas.api.types import is_numeric_dtype  # type: ignore
 
-import app.modules.mlflow as mlflow
-
 
 class GmmMlManager:
     """
@@ -78,6 +76,5 @@ class GmmMlManager:
             self.mlflow.log_metric("bic", float(bic))
             self.mlflow.sk_log_model(model, "gmm_n_component_" + str(i))
             self.mlflow.sklearn.save_model(model,
-                                           path="model_gmm_" + str(i),
-                                           serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_PICKLE)
+                                           path="model_gmm_" + str(i))
             self.mlflow.end_run()
