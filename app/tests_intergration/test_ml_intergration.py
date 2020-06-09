@@ -67,6 +67,7 @@ def test_preprocess_data(data_frame, wanted):
     """
     test_preprocess_data is used for  testing that the preprocessing is done correctly.
     Currently there is only label encoding.
+
     :param data_frame:
     :param wanted:
     :return:
