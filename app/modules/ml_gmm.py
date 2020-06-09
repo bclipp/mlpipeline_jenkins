@@ -3,10 +3,10 @@ This module contains all GMM ML related code
 """
 from sklearn import mixture  # type: ignore
 from sklearn.preprocessing import LabelEncoder  # type: ignore
-import mlflow.sklearn  # type: ignore
-import mlflow  # type: ignore
 import pandas as pd  # type: ignore
 from pandas.api.types import is_numeric_dtype  # type: ignore
+
+import app.modules.mlflow as mlflow
 
 
 class GmmMlManager:
@@ -14,19 +14,20 @@ class GmmMlManager:
     GmmMlManager is used for training GMM models and searching different hyperparameters.
     """
 
-    def __init__(self, train_data_frame: pd.DataFrame, config: dict):
+    def __init__(self, train_data_frame: pd.DataFrame, config: dict, mlflow):
         """
 
         :param train_data_frame: data used for trainig the model
         :param config: configuration of most related to MLflow
         """
+        self.mlflow = mlflow
         self.config = config
         self.train_data_frame = train_data_frame
         self.train_data_frame_clean = None
         self.model = None
         ip_address = self.config["mlflow_ip"]
-        mlflow.set_tracking_uri(f"http://{ip_address}:5000/")
-        mlflow.set_experiment("/mlflow_gmm")
+        self.mlflow.set_tracking_uri(f"http://{ip_address}:5000/")
+        self.mlflow.set_experiment("/mlflow_gmm")
 
     def preprocess_data(self):
         """
@@ -55,36 +56,28 @@ class GmmMlManager:
         """
         x_train = self.train_data_frame_clean
         for i in range(1, 10):
-            with mlflow.start_run():
-                mlflow.set_tag(
-                    "mlflow.runName", "Grid Search GMM n_component: " + str(i)
-                )
-                mlflow.set_tag(
-                    "mlflow.note.content", "Training a range of cluster sizes, 1-10."
-                )
-                mlflow.set_tag("mlflow.user", "Brian Lipp")
-                mlflow.set_tag("mlflow.source.type", "JOB")
-                mlflow.set_tag("mlflow.source.name", "Jenkins ML Pipeline")
-                mlflow.set_tag(
-                    "mlflow.source.git.repoURL",
-                    "https://github.com/bclipp/mlpipeline_jenkins",
-                )
-                n_components = i
-                model = mixture.GaussianMixture(
-                    n_components=n_components, covariance_type="full"
-                )
-                model.fit(x_train)
-                aic = str(model.aic(x_train))
-                bic = str(model.bic(x_train))
-                print("aic: " + aic)
-                print("bic: " + bic)
-                mlflow.log_param("n_components", i)
-                mlflow.log_param("covariance_type", "full")
-                mlflow.log_metric("aic", float(aic))
-                mlflow.log_metric("bic", float(bic))
-                mlflow.sklearn.log_model(model, "gmm_n_component_" + str(i))
-                mlflow.sklearn.save_model(
-                    model,
-                    path="model_gmm_" + str(i),
-                    serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_PICKLE,
-                )
+            self.mlflow.start_run(run_name="Grid Search GMM n_component: " + str(i))
+            self.mlflow.set_tag("mlflow.note.content",
+                                "Training a range of cluster sizes, 1-10.")
+            self.mlflow.set_tag("mlflow.user", "Brian Lipp")
+            self.mlflow.set_tag("mlflow.source.type", "JOB")
+            self.mlflow.set_tag("mlflow.source.name", "Jenkins ML Pipeline")
+            self.mlflow.set_tag("mlflow.source.git.repoURL",
+                                "https://github.com/bclipp/mlpipeline_jenkins")
+            n_components = i
+            model = mixture.GaussianMixture(n_components=n_components,
+                                            covariance_type="full")
+            model.fit(x_train)
+            aic = str(model.aic(x_train))
+            bic = str(model.bic(x_train))
+            print("aic: " + aic)
+            print("bic: " + bic)
+            self.mlflow.log_param("n_components", i)
+            self.mlflow.log_param("covariance_type", "full")
+            self.mlflow.log_metric("aic", float(aic))
+            self.mlflow.log_metric("bic", float(bic))
+            self.mlflow.sk_log_model(model, "gmm_n_component_" + str(i))
+            self.mlflow.sklearn.save_model(model,
+                                           path="model_gmm_" + str(i),
+                                           serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_PICKLE)
+            self.mlflow.end_run()
