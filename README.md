@@ -64,8 +64,4 @@ pyenv deactivate
 
 Currently credentials are shared by using a volume in docker. It will use the default profile.
 
-### TODO
-* Add unit tests 
-* Add intergration tests
-* handle secrets better
-* kick off ML in a ec2
+
