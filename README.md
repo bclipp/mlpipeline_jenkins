@@ -28,11 +28,11 @@ The data used is pulled from yahoo finance.
 
 ### ML
 
-The Machine Learning in this project is just used as an example. 
-It is a clustering algorith called Gaussian mixture models implemented using sklearn.
+Machine Learning in this project is just used as an example. 
+It is a clustering algorithm called Gaussian mixture models implemented using sklearn.
 
 * Model will be saved in S3
-* The all data round the training of the models will be stored in PostgreSQL and visable via MLflow.
+* All the data round the training of the models will be stored in PostgreSQL and visible via MLflow.
 
 
 ### setup jenkins container
@@ -62,6 +62,6 @@ pyenv deactivate
 
 ### AWS
 
-Currently credentials are shared by using a volume in docker. It will use the default profile.
+Currently, credentials are shared by using a volume in docker. It will use the default profile.
 
 
